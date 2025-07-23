@@ -1,9 +1,10 @@
+import getpass
 import json
 from datetime import datetime
 from uuid import uuid4
 from utils import (
     make_password, is_valid_username, print_status,
-    is_valid_password,
+    is_valid_password, 
 )
 
 
@@ -95,3 +96,20 @@ class User:
                 return True
             
         return False
+    @classmethod
+    def login(cls):
+        username = input("username: ")
+        password = getpass.getpass("password: ")
+
+        check_password = make_password(password)
+
+        users = cls.load_users()
+
+        for user in users:
+            if user.username == username and user.password == check_password:
+                print_status("siz tizmiga muvofaqiyatli kirdingiz")
+                return user
+            
+        print_status("sizda qandaydur xatolik  yuzaga keldi ", "error")
+        return None    
+        
